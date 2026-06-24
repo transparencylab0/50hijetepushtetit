@@ -1,0 +1,141 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const cases = (await getCollection("cases")).sort((a, b) => {
+  const priorityOrder = { P1: 0, P2: 1, P3: 2 };
+  return priorityOrder[a.data.priority] - priorityOrder[b.data.priority] || a.data.title.localeCompare(b.data.title);
+});
+
+const statuses = [...new Set(cases.map((item) => item.data.status))];
+const years = [...new Set(cases.map((item) => item.data.year))].sort((a, b) => b - a);
+const tags = [...new Set(cases.flatMap((item) => item.data.tags))].sort();
+const statusLabels = {
+  sourced: "Me burime",
+  developing: "Në zhvillim",
+  "needs-info": "Mungon info",
+  disputed: "E kontestuar",
+  "right-of-reply": "Përgjigje"
+};
+const categoryLabels = {
+  "investime-strategjike": "Investime strategjike",
+  tendera: "Tendera"
+};
+---
+
+<BaseLayout title="Rastet | 50hijetepushtetit" description="Indeks i dosjeve publike dhe pikave për verifikim.">
+  <section class="section">
+    <div class="section-heading wide">
+      <p class="eyebrow">Indeksi i dosjeve</p>
+      <h1>Filtro dosjet.</h1>
+      <p class="lead">
+        Zgjidh periudhën, vitin, prioritetin, statusin dhe llojin e dosjes.
+      </p>
+    </div>
+
+    <div class="quick-filter-menu">
+      <a href="/sq/rastet/?category=investime-strategjike" data-quick-filter data-key="category" data-value="investime-strategjike">Investime strategjike</a>
+      <a href="/sq/rastet/?category=tendera" data-quick-filter data-key="category" data-value="tendera">Tendera</a>
+      <a href="/sq/rastet/?era=rama" data-quick-filter data-key="era" data-value="rama">Rama</a>
+      <a href="/sq/rastet/?era=berisha" data-quick-filter data-key="era" data-value="berisha">Berisha</a>
+      <a href="/sq/rastet/" data-clear-filters>Pastro</a>
+    </div>
+
+    <div class="filters" data-case-filters>
+      <label>
+        <span>Kërko</span>
+        <input type="search" name="q" placeholder="Emër, etiketë, burim..." autocomplete="off" />
+      </label>
+      <label>
+        <span>Prioritet</span>
+        <select name="priority">
+          <option value="">Të gjitha</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+      </label>
+      <label>
+        <span>Rama / Berisha</span>
+        <select name="era">
+          <option value="">Të gjitha</option>
+          <option value="rama">Rama</option>
+          <option value="berisha">Berisha</option>
+          <option value="cross-era">Të dyja</option>
+        </select>
+      </label>
+      <label>
+        <span>Viti</span>
+        <select name="year">
+          <option value="">Të gjitha</option>
+          {years.map((year) => <option value={String(year)}>{year}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Status</span>
+        <select name="status">
+          <option value="">Të gjitha</option>
+          {statuses.map((status) => <option value={status}>{statusLabels[status]}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Lloji</span>
+        <select name="category">
+          <option value="">Të gjitha</option>
+          {Object.entries(categoryLabels).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Etiketë</span>
+        <select name="tag">
+          <option value="">Të gjitha</option>
+          {tags.map((tag) => <option value={tag}>{tag}</option>)}
+        </select>
+      </label>
+    </div>
+
+    <p class="result-line" data-result-line>&gt; {cases.length} / {cases.length} dosje</p>
+
+    <div class="case-grid" data-case-grid>
+      {cases.map((item) => (
+        <article
+          class="case-card"
+          data-case-card
+          data-priority={item.data.priority}
+          data-era={item.data.era}
+          data-year={item.data.year}
+          data-category={item.data.category}
+          data-status={item.data.status}
+          data-tags={item.data.tags.join(" ")}
+          data-search={`${item.data.title} ${item.data.summary} ${item.data.tags.join(" ")} ${item.data.subjects.map((subject) => subject.name).join(" ")}`.toLowerCase()}
+        >
+          <div class="card-topline">
+            <span class={`priority ${item.data.priority.toLowerCase()}`}>{item.data.priority}</span>
+            <span class="status">{statusLabels[item.data.status]}</span>
+          </div>
+          <h2><a href={`/sq/rastet/${item.id}/`}>{item.data.title}</a></h2>
+          <p>{item.data.summary}</p>
+          <div class="tag-row">
+            {item.data.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+          <dl class="mini-ledger">
+            <div>
+              <dt>Pika verifikimi</dt>
+              <dd>{item.data.redFlags.length}</dd>
+            </div>
+            <div>
+              <dt>Pyetje të hapura</dt>
+              <dd>{item.data.missingInfo.filter((entry) => entry.status === "open").length}</dd>
+            </div>
+            <div>
+              <dt>Burime</dt>
+              <dd>{item.data.sources.length}</dd>
+            </div>
+          </dl>
+        </article>
+      ))}
+    </div>
+    <p class="empty-state" data-empty-state hidden>Nuk u gjet asnjë dosje me këta filtra.</p>
+  </section>
+  <script is:inline src="/scripts/case-filters.js"></script>
+</BaseLayout>

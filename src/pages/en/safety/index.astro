@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const inbox = "thetourist1@proton.me";
+const privateSubject = encodeURIComponent("Private information for verification");
+const privateBody = encodeURIComponent(`Information:\n\n\nSources, if any:\n- \n\nNote: normal email is not anonymous by itself. If the risk is high, read the safety page before sending material.\n`);
+const privateUrl = `mailto:${inbox}?subject=${privateSubject}&body=${privateBody}`;
+const torSearchUrl = "https://www.google.com/search?q=Tor+Browser+download";
+const torPracticeSearchUrl = "https://www.google.com/search?q=Tor+Browser+security+practices";
+const protonSearchUrl = "https://www.google.com/search?q=Proton+Mail+sign+up";
+---
+
+<BaseLayout lang="en" title="Source safety | 50 Shades of Power" description="How to send information with more care, without fake anonymity promises.">
+  <section class="section narrow">
+    <p class="eyebrow">Source safety</p>
+    <h1>Before you send information.</h1>
+    <p class="lead">
+      Email and normal forms are not anonymous by themselves. This page gives practical steps to reduce
+      risk, but it does not promise perfect anonymity.
+    </p>
+
+    <div class="guide-stack">
+      <article>
+        <h2>For low-risk material</h2>
+        <p>
+          You can email the archive with links, public documents, dates and a short explanation.
+          If you do not want to use your personal address, use Proton, SimpleLogin or another alias.
+        </p>
+        <a class="button primary" href={privateUrl}>Send private information</a>
+      </article>
+
+      <article>
+        <h2>For sensitive material</h2>
+        <p>
+          Do not use work email, personal email, social accounts or devices that are easy to link to you.
+          Search for Tor Browser yourself and check that the result is an official domain before downloading.
+          Do not log into personal accounts, and do not include your name, phone or identifying details in the text.
+        </p>
+        <a class="button secondary" href={torSearchUrl} rel="noreferrer">Search Tor Browser</a>
+      </article>
+
+      <article>
+        <h2>Create a separate inbox</h2>
+        <p>
+          For more sensitive information, create a new Proton address or alias only for this work,
+          inside Tor Browser. Do not use a recovery email, phone number, name, known pseudonym or password
+          that links back to you. If the service asks for verification with personal details, that can create
+          a link. Do not later open that inbox from a normal browser or personal device.
+        </p>
+        <a class="button secondary" href={protonSearchUrl} rel="noreferrer">Search Proton Mail</a>
+      </article>
+
+      <article>
+        <h2>Documents can identify you</h2>
+        <p>
+          PDF, Word, photos and other files can contain metadata: author, device, location, creation time
+          or edit history. Before sending sensitive material, remove metadata or send public links when possible.
+        </p>
+      </article>
+
+      <article>
+        <h2>What to avoid</h2>
+        <p>
+          Do not send from a work network, do not mention yourself in the text, do not use a pseudonym
+          that you use elsewhere, and do not open documents downloaded through Tor while online. Tor Project
+          warns that documents can load resources outside Tor and reveal your IP address.
+        </p>
+        <a class="button secondary" href={torPracticeSearchUrl} rel="noreferrer">Tor practices</a>
+      </article>
+
+      <article>
+        <h2>What happens after you send</h2>
+        <p>
+          Nothing is published automatically. Information is used for verification, compared with public
+          sources and may appear only after identifying details are removed and there is documentary basis.
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

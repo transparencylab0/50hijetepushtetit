@@ -1,0 +1,119 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const profiles = (await getCollection("articles")).filter((item) => item.data.type === "profil");
+  return profiles.map((item) => ({
+    params: { slug: item.id },
+    props: { item }
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const cases = await getCollection("cases");
+const articles = await getCollection("articles");
+const caseBySlug = new Map(cases.map((caseItem) => [caseItem.id, caseItem]));
+const articleBySlug = new Map(articles.map((articleItem) => [articleItem.id, articleItem]));
+const relatedCases = item.data.relatedCases.flatMap((slug) => {
+  const caseItem = caseBySlug.get(slug);
+  return caseItem ? [caseItem] : [];
+});
+const relatedArticles = item.data.relatedArticles.flatMap((slug) => {
+  const articleItem = articleBySlug.get(slug);
+  return articleItem && articleItem.data.type !== "profil" ? [articleItem] : [];
+});
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("sq-AL", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+---
+
+<BaseLayout title={`${item.data.title} | 50hijetepushtetit`} description={item.data.summary}>
+  <article class="article-page">
+    <header class="article-hero">
+      <p class="eyebrow">Profil</p>
+      <h1>{item.data.title}</h1>
+      <p class="lead">{item.data.summary}</p>
+      <div class="article-meta-line">
+        <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+        {item.data.updatedAt && <span>Perditesuar: {formatDate(item.data.updatedAt)}</span>}
+        <span>{item.data.sources.length} burime</span>
+      </div>
+      <div class="tag-row">
+        {item.data.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      {item.data.image && (
+        <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
+          <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
+          <figcaption>
+            {item.data.image.sourceUrl ? (
+              <a href={item.data.image.sourceUrl}>{item.data.image.credit}</a>
+            ) : (
+              <span>{item.data.image.credit}</span>
+            )}
+            {item.data.image.license && <span>{item.data.image.license}</span>}
+          </figcaption>
+        </figure>
+      )}
+      <p class="legal-note"><a href={`/en/profiles/${item.id}/`}>Open English version</a></p>
+    </header>
+
+    <section class="article-body prose">
+      <Content />
+    </section>
+
+    {item.data.sources.length > 0 && (
+      <section class="article-support">
+        <h2>Burimet</h2>
+        <div class="source-table">
+          {item.data.sources.map((source) => (
+            <article>
+              <div>
+                <strong>{source.title}</strong>
+                <span>{source.publisher}{source.date ? ` · ${source.date}` : ""}</span>
+                {source.note && <small>{source.note}</small>}
+              </div>
+              <div class="source-actions">
+                <a href={source.url}>{source.linkLabel ?? "Burimi"}</a>
+                {source.archiveUrl && <a href={source.archiveUrl}>Arkiva</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {relatedCases.length > 0 && (
+      <section class="article-support">
+        <h2>Dosje ku permendet ose lidhet</h2>
+        <div class="related-case-list">
+          {relatedCases.map((caseItem) => (
+            <a href={`/sq/rastet/${caseItem.id}/`}>
+              <strong>{caseItem.data.title}</strong>
+              <span>{caseItem.data.summary}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {relatedArticles.length > 0 && (
+      <section class="article-support">
+        <h2>Shkrime te lidhura</h2>
+        <div class="related-case-list">
+          {relatedArticles.map((articleItem) => (
+            <a href={`/sq/shkrime/${articleItem.id}/`}>
+              <strong>{articleItem.data.title}</strong>
+              <span>{articleItem.data.summary}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>

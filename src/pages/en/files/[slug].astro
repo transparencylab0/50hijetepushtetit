@@ -1,0 +1,219 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const cases = await getCollection("cases-en");
+  return cases.map((item) => ({
+    params: { slug: item.id },
+    props: { item }
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const sourceById = new Map(item.data.sources.map((source) => [source.id, source]));
+const statusLabels = {
+  sourced: "Sourced",
+  developing: "Developing",
+  "needs-info": "Needs info",
+  disputed: "Disputed",
+  "right-of-reply": "Right of reply"
+};
+const tipStatusLabels = {
+  "pending-source": "Awaiting source",
+  "needs-review": "In review",
+  verified: "Verified",
+  rejected: "Rejected"
+};
+const missingPriorityLabels = { high: "high priority", medium: "medium priority", low: "low priority" };
+const missingStatusLabels = { open: "open", submitted: "submitted", resolved: "resolved" };
+const severityLabels = { high: "high", medium: "medium", low: "low" };
+const inbox = "thetourist1@proton.me";
+const editSubject = encodeURIComponent(`Correction suggestion: ${item.data.title}`);
+const editBody = encodeURIComponent(`File: ${item.data.title}\n\nWhat should be changed?\n\n\nText / section:\n\n\nSupporting sources:\n- Original link:\n- Archive link:\n- Date:\n- Institution/media:\n\nNote: this suggestion is not published automatically. It needs verification and sources.\n`);
+const editUrl = `mailto:${inbox}?subject=${editSubject}&body=${editBody}`;
+const sourceSubject = encodeURIComponent(`Source for file: ${item.data.title}`);
+const sourceBody = encodeURIComponent(`File: ${item.data.title}\n\nSource / document:\n- Original link:\n- Archive link:\n- Date:\n- Institution/media:\n\nWhat does this source prove or clarify?\n\n\nVerification notes:\n\n`);
+const sourceUrl = `mailto:${inbox}?subject=${sourceSubject}&body=${sourceBody}`;
+const tipSubject = encodeURIComponent(`Private information: ${item.data.title}`);
+const tipBody = encodeURIComponent(`File: ${item.data.title}\n\nInformation:\n\n\nSources, if any:\n- \n\nNote: this is not published automatically. For more privacy, send from Proton, SimpleLogin or another email alias.\n`);
+const tipUrl = `mailto:${inbox}?subject=${tipSubject}&body=${tipBody}`;
+---
+
+<BaseLayout lang="en" title={`${item.data.title} | 50 Shades of Power`} description={item.data.summary}>
+  <article class="case-page">
+    <header class="case-hero">
+      <div>
+        <p class="eyebrow">Public file</p>
+        <h1>{item.data.title}</h1>
+        <p class="lead">{item.data.summary}</p>
+        <p class="legal-note"><a href={`/sq/rastet/${item.id}/`}>Open Albanian version</a></p>
+        {item.data.image && (
+          <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
+            <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
+            <figcaption>
+              {item.data.image.sourceUrl ? (
+                <a href={item.data.image.sourceUrl}>{item.data.image.credit}</a>
+              ) : (
+                <span>{item.data.image.credit}</span>
+              )}
+              {item.data.image.license && <span>{item.data.image.license}</span>}
+            </figcaption>
+          </figure>
+        )}
+      </div>
+      <aside class="case-stamp" aria-label="File rating">
+        <span class={`priority ${item.data.priority.toLowerCase()}`}>{item.data.priority}</span>
+        <strong>{statusLabels[item.data.status]}</strong>
+        <small>Verification points and documented findings, not a verdict.</small>
+      </aside>
+    </header>
+
+    <section class="case-section">
+      <h2>Subjects</h2>
+      <div class="subject-list">
+        {item.data.subjects.map((subject) => (
+          <article>
+            <strong>{subject.name}</strong>
+            <span>{subject.role}</span>
+            <small>{subject.type}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section prose">
+      <h2>Editorial note</h2>
+      <Content />
+    </section>
+
+    <section class="case-section">
+      <h2>Findings to verify</h2>
+      <div class="redflag-list">
+        {item.data.redFlags.map((flag) => (
+          <article class={`redflag ${flag.severity}`}>
+            <div>
+              <strong>{flag.title}</strong>
+              <span>{severityLabels[flag.severity]}</span>
+            </div>
+            <p>{flag.description}</p>
+            <p class="source-pills">
+              {flag.sources.map((sourceId) => {
+                const source = sourceById.get(sourceId);
+                return source ? <a href={source.url}>{source.publisher}</a> : <span>{sourceId}</span>;
+              })}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section">
+      <h2>What is missing</h2>
+      <ul class="missing-list">
+        {item.data.missingInfo.map((entry) => (
+          <li>
+            <span class={`dot ${entry.status}`}></span>
+            <div>
+              <strong>{entry.question}</strong>
+              <small>{missingPriorityLabels[entry.priority]} · {missingStatusLabels[entry.status]}</small>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="case-section">
+      <h2>Timeline</h2>
+      <ol class="timeline">
+        {item.data.timeline.map((entry) => (
+          <li>
+            <time>{entry.date}</time>
+            <p>{entry.event}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="case-section">
+      <h2>Sources</h2>
+      <div class="source-table">
+        {item.data.sources.map((source) => (
+          <article>
+            <div>
+              <strong>{source.title}</strong>
+              <span>{source.publisher}{source.date ? ` · ${source.date}` : ""}</span>
+              {source.note && <small>{source.note}</small>}
+            </div>
+            <div class="source-actions">
+              <a href={source.url}>{source.linkLabel ?? "Source"}</a>
+              {source.archiveUrl && <a href={source.archiveUrl}>Archive</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section response-box" id="contribute">
+      <h2>Send a source or correction</h2>
+      <p>
+        Send only material that helps verification: documents, original links, archives, dates,
+        institutions or concrete corrections. Nothing is published automatically.
+      </p>
+      <div class="thread-toolbar">
+        <a class="button primary" href={tipUrl}>Send private information</a>
+        <a class="button secondary" href={sourceUrl}>Add source</a>
+        <a class="button secondary" href={editUrl}>Suggest correction</a>
+      </div>
+      <p class="legal-note">
+        Email opens your mail client. If you need stronger privacy, do not use a personal address.
+        Read the <a href="/en/safety/">source safety guide</a>. Right of reply applies to every mentioned subject.
+      </p>
+    </section>
+
+    {item.data.communityTips.length > 0 && (
+      <section class="case-section comments" id="reviewed-information">
+        <h2>Reviewed information</h2>
+        <p class="legal-note">
+          These appear only when manually added after editorial review. Claims of fact should link
+          to sources, documents or links.
+        </p>
+        <div class="thread-list">
+          {item.data.communityTips.map((tip) => (
+            <article class="thread-card">
+              <div class="thread-meta">
+                <span>{tip.author}</span>
+                <time>{tip.date}</time>
+                <b>{tipStatusLabels[tip.status]}</b>
+              </div>
+              <h3>{tip.title}</h3>
+              <p>{tip.body}</p>
+              {tip.links.length > 0 && (
+                <p class="source-pills">
+                  {tip.links.map((link) => <a href={link}>Source</a>)}
+                </p>
+              )}
+              <div class="reply-list">
+                {tip.replies.map((reply) => (
+                  <article class="reply-card">
+                    <div class="thread-meta">
+                      <span>{reply.author}</span>
+                      <time>{reply.date}</time>
+                    </div>
+                    <p>{reply.body}</p>
+                    {reply.links.length > 0 && (
+                      <p class="source-pills">
+                        {reply.links.map((link) => <a href={link}>Source</a>)}
+                      </p>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>

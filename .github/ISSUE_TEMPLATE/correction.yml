@@ -1,0 +1,30 @@
+name: Correction or right of reply
+description: Request a correction, context update, or right-of-reply note.
+title: "Correction: "
+labels: ["right-of-reply", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use GitHub only for public-source corrections or right-of-reply notes. Do not post private documents, private addresses, phone numbers, or sensitive leads here. Send sensitive material by email from Proton, SimpleLogin or another alias account.
+  - type: input
+    id: case
+    attributes:
+      label: Case
+      description: Which case page needs correction or context?
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Correction or reply
+      description: Explain what should be corrected or added.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting sources
+      description: Add public URLs or documents that support the correction.
+    validations:
+      required: true

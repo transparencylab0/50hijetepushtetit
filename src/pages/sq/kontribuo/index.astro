@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const inbox = "thetourist1@proton.me";
+const contributionSubject = encodeURIComponent("Kontribut per 50hijetepushtetit");
+const contributionBody = encodeURIComponent(`Tipi i kontributit:\n\nDosja / shkrimi:\n\nBurime / dokumente / linke:\n- \n\nCfare provon ose sqaron ky burim?\n\n\nShenime:\n`);
+const contributionUrl = `mailto:${inbox}?subject=${contributionSubject}&body=${contributionBody}`;
+const privateSubject = encodeURIComponent("Informacion privat per verifikim");
+const privateBody = encodeURIComponent(`Informacioni:\n\n\nBurime, nese ka:\n- \n\nShenim: kjo dergese nuk publikohet automatikisht. Nese do me shume privatesi, dergo nga Proton, SimpleLogin ose nje alias emaili.\n`);
+const privateUrl = `mailto:${inbox}?subject=${privateSubject}&body=${privateBody}`;
+---
+
+<BaseLayout title="Kontribuo | 50hijetepushtetit" description="Si të dërgosh dokumente, burime ose informacion për verifikim.">
+  <section class="section narrow">
+    <p class="eyebrow">Kontribut qytetar</p>
+    <h1>Dërgo dokumente, jo thashetheme.</h1>
+    <p class="lead">
+      Qëllimi është të forcohen dosjet me burime publike, jo të publikohen akuza të paverifikuara.
+    </p>
+
+    <div class="guide-stack">
+      <article>
+        <h2>Lexo sigurinë para materialeve të ndjeshme</h2>
+        <p>
+          Nëse informacioni mund të të rrezikojë, mos e dërgo menjëherë nga emaili personal.
+          Lexo hapat bazë për Tor, alias emaili, metadata dhe kufijtë e anonimitetit.
+        </p>
+        <a class="button secondary" href="/sq/siguria/">Udhëzuesi i sigurisë</a>
+      </article>
+      <article>
+        <h2>Çfarë pranohet</h2>
+        <p>
+          Dokumente publike, vendime gjykate, buletine prokurimi, deklarime pasurie,
+          raportime të citueshme, regjistra zyrtarë dhe arkiva.
+        </p>
+      </article>
+      <article>
+        <h2>Si të citosh</h2>
+        <p>
+          Dërgo linkun origjinal, një link arkive kur mundesh, datën, institucionin ose publikuesin,
+          dhe një shpjegim të shkurtër pse burimi lidhet me dosjen.
+        </p>
+      </article>
+      <article>
+        <h2>Kontribut pa llogari</h2>
+        <p>
+          Për korrigjime ose burime të reja, dërgo një email të strukturuar. Nuk ka llogari,
+          panel privat ose publikim automatik; çdo gjë shtohet manualisht pas kontrollit.
+        </p>
+        <a class="button primary" href={contributionUrl}>Dërgo kontribut</a>
+      </article>
+      <article>
+        <h2>Informacion privat</h2>
+        <p>
+          Emaili normal nuk është anonim vetvetiu. Nëse nuk do ta lidhësh informacionin me adresën
+          tënde personale, përdor Proton, SimpleLogin ose një alias tjetër. Informacioni shërben për
+          verifikim dhe nuk publikohet automatikisht.
+        </p>
+        <a class="button secondary" href={privateUrl}>Dërgo informacion privat</a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,128 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const articles = (await getCollection("articles")).filter((item) => item.data.type !== "profil");
+  return articles.map((item) => ({
+    params: { slug: item.id },
+    props: { item }
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const cases = await getCollection("cases");
+const englishArticles = (await getCollection("articles-en")).filter((article) => article.data.type !== "profil");
+const hasEnglishVersion = englishArticles.some((article) => article.id === item.id);
+const caseBySlug = new Map(cases.map((caseItem) => [caseItem.id, caseItem]));
+const relatedCases = item.data.relatedCases.flatMap((slug) => {
+  const caseItem = caseBySlug.get(slug);
+  return caseItem ? [caseItem] : [];
+});
+
+const typeLabels = {
+  skandal: "Skandal",
+  profil: "Profil",
+  analize: "Analize",
+  perditesim: "Perditesim",
+  opinion: "Opinion"
+};
+
+const replySubject = encodeURIComponent(`Pergjigje per shkrimin: ${item.data.title}`);
+const replyBody = encodeURIComponent(
+  `Shkrimi: /sq/shkrime/${item.id}/\n\nShkruaj pergjigjen, korrigjimin ose shenimin e burimit ketu. Bashkangjit dokumente ose linke burimore kur eshte e mundur.`
+);
+const replyMailto = `mailto:thetourist1@proton.me?subject=${replySubject}&body=${replyBody}`;
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("sq-AL", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+---
+
+<BaseLayout title={`${item.data.title} | 50hijetepushtetit`} description={item.data.summary}>
+  <article class="article-page">
+    <header class="article-hero">
+      <p class="eyebrow">{typeLabels[item.data.type]}</p>
+      <h1>{item.data.title}</h1>
+      <p class="lead">{item.data.summary}</p>
+      <div class="article-meta-line">
+        <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+        <span class="article-author">Nga {item.data.author}</span>
+        {item.data.updatedAt && <span>Perditesuar: {formatDate(item.data.updatedAt)}</span>}
+        <span>{item.data.sources.length} burime</span>
+      </div>
+      <div class="tag-row">
+        {item.data.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      {item.data.disclaimer && <p class="article-disclaimer">{item.data.disclaimer}</p>}
+      {item.data.image && (
+        <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
+          <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
+          <figcaption>
+            {item.data.image.sourceUrl ? (
+              <a href={item.data.image.sourceUrl}>{item.data.image.credit}</a>
+            ) : (
+              <span>{item.data.image.credit}</span>
+            )}
+            {item.data.image.license && <span>{item.data.image.license}</span>}
+          </figcaption>
+        </figure>
+      )}
+      {hasEnglishVersion && <p class="legal-note"><a href={`/en/articles/${item.id}/`}>Open English version</a></p>}
+    </header>
+
+    <section class="article-body prose">
+      <Content />
+    </section>
+
+    {item.data.sources.length > 0 && (
+      <section class="article-support">
+        <h2>Burimet</h2>
+        <div class="source-table">
+          {item.data.sources.map((source) => (
+            <article>
+              <div>
+                <strong>{source.title}</strong>
+                <span>{source.publisher}{source.date ? ` · ${source.date}` : ""}</span>
+                {source.note && <small>{source.note}</small>}
+              </div>
+              <div class="source-actions">
+                <a href={source.url}>{source.linkLabel ?? "Burimi"}</a>
+                {source.archiveUrl && <a href={source.archiveUrl}>Arkiva</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {item.data.rightOfReply && (
+      <section class="article-support reply-box">
+        <h2>E drejta e pergjigjes</h2>
+        <p>
+          Cdo pale e permendur ne kete shkrim mund te dergoje pergjigje, korrigjim ose dokumente.
+          Pergjigjet shqyrtohen manualisht dhe mund te publikohen si perditesime kur jane te rendesishme.
+        </p>
+        <a class="button" href={replyMailto}>Dergo pergjigje me email</a>
+      </section>
+    )}
+
+    {relatedCases.length > 0 && (
+      <section class="article-support">
+        <h2>Dosje te lidhura</h2>
+        <div class="related-case-list">
+          {relatedCases.map((caseItem) => (
+            <a href={`/sq/rastet/${caseItem.id}/`}>
+              <strong>{caseItem.data.title}</strong>
+              <span>{caseItem.data.summary}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>

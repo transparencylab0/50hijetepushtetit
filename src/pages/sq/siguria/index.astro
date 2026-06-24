@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const inbox = "thetourist1@proton.me";
+const privateSubject = encodeURIComponent("Informacion privat per verifikim");
+const privateBody = encodeURIComponent(`Informacioni:\n\n\nBurime, nese ka:\n- \n\nShenim: emaili normal nuk eshte anonim vetvetiu. Nese rreziku eshte i larte, lexo faqen e sigurise para se te dergosh materiale.\n`);
+const privateUrl = `mailto:${inbox}?subject=${privateSubject}&body=${privateBody}`;
+const torSearchUrl = "https://www.google.com/search?q=Tor+Browser+download";
+const torPracticeSearchUrl = "https://www.google.com/search?q=Tor+Browser+security+practices";
+const protonSearchUrl = "https://www.google.com/search?q=Proton+Mail+sign+up";
+---
+
+<BaseLayout title="Siguria e burimeve | 50hijetepushtetit" description="Si të dërgosh informacion me më shumë kujdes dhe pa premtuar anonimitet të rremë.">
+  <section class="section narrow">
+    <p class="eyebrow">Siguria e burimeve</p>
+    <h1>Para se të dërgosh informacion.</h1>
+    <p class="lead">
+      Emaili dhe format normale nuk janë anonime vetvetiu. Kjo faqe jep hapa praktikë për të ulur
+      rrezikun, por nuk premton anonimitet të përsosur.
+    </p>
+
+    <div class="guide-stack">
+      <article>
+        <h2>Për materiale me rrezik të ulët</h2>
+        <p>
+          Mund të dërgosh email te redaksia me linke, dokumente publike, data dhe shpjegim të shkurtër.
+          Nëse nuk do ta lidhësh me adresën personale, përdor Proton, SimpleLogin ose një alias tjetër.
+        </p>
+        <a class="button primary" href={privateUrl}>Dërgo informacion privat</a>
+      </article>
+
+      <article>
+        <h2>Për materiale të ndjeshme</h2>
+        <p>
+          Mos përdor email pune, email personal, rrjete sociale ose pajisje që lidhen lehtë me ty.
+          Kërko Tor Browser vetë dhe kontrollo që rezultati të jetë domen zyrtar përpara shkarkimit.
+          Mos hyr në llogaritë personale dhe mos vendos emër, telefon ose të dhëna që të identifikojnë në tekst.
+        </p>
+        <a class="button secondary" href={torSearchUrl} rel="noreferrer">Kërko Tor Browser</a>
+      </article>
+
+      <article>
+        <h2>Krijo një inbox të veçantë</h2>
+        <p>
+          Për informacion më të ndjeshëm, krijo një adresë të re Proton ose një alias vetëm për këtë punë,
+          brenda Tor Browser. Mos përdor email rikuperimi, numër telefoni, emër, pseudonim ose fjalëkalim
+          që lidhet me ty. Nëse shërbimi kërkon verifikim me të dhëna personale, ai hap mundësi lidhjeje.
+          Mos e hap më vonë atë inbox nga browser normal ose pajisje personale.
+        </p>
+        <a class="button secondary" href={protonSearchUrl} rel="noreferrer">Kërko Proton Mail</a>
+      </article>
+
+      <article>
+        <h2>Dokumentet mund të flasin për ty</h2>
+        <p>
+          PDF, Word, foto dhe skedarë të tjerë mund të mbajnë metadata: autor, pajisje, vendndodhje,
+          kohë krijimi ose historik ndryshimesh. Para se të dërgosh materiale të ndjeshme, hiq metadata
+          ose dërgo vetëm linke publike kur është e mundur.
+        </p>
+      </article>
+
+      <article>
+        <h2>Çfarë të shmangësh</h2>
+        <p>
+          Mos dërgo nga rrjeti i punës, mos përmend veten në tekst, mos përdor një pseudonim që e përdor
+          edhe diku tjetër, dhe mos hap dokumente të shkarkuara përmes Tor ndërsa je online. Tor Project
+          paralajmëron se dokumentet mund të ngarkojnë burime jashtë Tor dhe të zbulojnë IP-në.
+        </p>
+        <a class="button secondary" href={torPracticeSearchUrl} rel="noreferrer">Praktikat e Tor</a>
+      </article>
+
+      <article>
+        <h2>Çfarë ndodh pasi dërgon</h2>
+        <p>
+          Asgjë nuk publikohet automatikisht. Informacioni përdoret për verifikim, krahasohet me burime
+          publike dhe mund të publikohet vetëm pasi hiqen të dhënat identifikuese dhe ka bazë dokumentare.
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

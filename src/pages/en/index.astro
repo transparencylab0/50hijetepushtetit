@@ -1,0 +1,197 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const cases = await getCollection("cases-en");
+const articles = await getCollection("articles-en");
+const writing = articles.filter((item) => item.data.type !== "profil");
+const profiles = articles.filter((item) => item.data.type === "profil");
+const p1 = cases.filter((item) => item.data.priority === "P1").length;
+const ramaCases = cases.filter((item) => item.data.era === "rama").length;
+const berishaCases = cases.filter((item) => item.data.era === "berisha").length;
+const crossEraCases = cases.filter((item) => item.data.era === "cross-era").length;
+const priorityColor = { P1: "#c41c1c", P2: "#7a6030", P3: "#4a6840" };
+const statusLabels = {
+  sourced: "Sourced",
+  developing: "Developing",
+  "needs-info": "Needs info",
+  disputed: "Disputed",
+  "right-of-reply": "Right of reply"
+};
+const statusColor = {
+  sourced: "#1a5c2a",
+  developing: "#7a6030",
+  "needs-info": "#7c7975",
+  disputed: "#c41c1c",
+  "right-of-reply": "#7c7975"
+};
+const eraLabels = { rama: "Rama period", berisha: "Berisha period", "cross-era": "Cross-era" };
+const latestCases = [...cases].sort((a, b) => b.data.year - a.data.year).slice(0, 6);
+const latestArticles = [...writing]
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+const latestProfiles = [...profiles]
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+const articleTypeLabels = {
+  skandal: "Scandal",
+  profil: "Profile",
+  analize: "Analysis",
+  perditesim: "Update",
+  opinion: "Opinion"
+};
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(date);
+---
+
+<BaseLayout
+  lang="en"
+  title="50 Shades of Power | Public files"
+  description="Public files, open sources and civic verification on power in Albania."
+>
+  <section class="home-brief">
+    <div class="home-brief-copy">
+      <div>
+        <span></span>
+        <h1>50 Shades of Power</h1>
+      </div>
+      <p>An investigative archive on power, public accountability and documented evidence in Albania</p>
+    </div>
+    <div class="home-brief-actions">
+      <div class="stat-strip">
+        <article>
+          <strong>{cases.length}</strong>
+          <span>files</span>
+        </article>
+        <article>
+          <strong>{writing.length}</strong>
+          <span>articles</span>
+        </article>
+        <article>
+          <strong>{profiles.length}</strong>
+          <span>profiles</span>
+        </article>
+        <article>
+          <strong>{p1}</strong>
+          <span>P1</span>
+        </article>
+        <article>
+          <strong>0</strong>
+          <span>ads</span>
+        </article>
+      </div>
+      <a class="button primary" href="/en/articles/">Articles -></a>
+    </div>
+  </section>
+
+  <section class="home-grid">
+    <div>
+      <div class="home-article-block">
+        <div class="list-heading">
+          <h2>Latest articles</h2>
+          <a href="/en/articles/">View all -></a>
+        </div>
+        <div class="article-teaser-list">
+          {latestArticles.map((item) => (
+            <a class="article-teaser" href={`/en/articles/${item.id}/`}>
+              <span>{articleTypeLabels[item.data.type]} · {formatDate(item.data.publishedAt)}</span>
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="home-article-block">
+        <div class="list-heading">
+          <h2>Profiles</h2>
+          <a href="/en/profiles/">View all -></a>
+        </div>
+        <div class="article-teaser-list">
+          {latestProfiles.map((item) => (
+            <a class="article-teaser" href={`/en/profiles/${item.id}/`}>
+              <span>Profile · {formatDate(item.data.publishedAt)}</span>
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="list-heading">
+        <h2>Latest files</h2>
+        <a href="/en/files/">View all -></a>
+      </div>
+      <div class="latest-list">
+        {latestCases.map((item) => (
+          <a class="latest-row" href={`/en/files/${item.id}/`}>
+            <span class="priority" style={`color:${priorityColor[item.data.priority]}`}>{item.data.priority}</span>
+            <span class="latest-copy">
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </span>
+            <span class="latest-meta">
+              <b style={`color:${statusColor[item.data.status]}`}>{statusLabels[item.data.status]}</b>
+              <small>{eraLabels[item.data.era]}</small>
+              <small>{item.data.year}</small>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="home-sidebar">
+      <article>
+        <h3>What is this archive?</h3>
+        <p>A public archive on power, economic interests and influence in Albania. Every file is built on documents, official registers and open sources.</p>
+        <p>No file is an accusation. Claims are published as matters for verification, with right of reply for those mentioned.</p>
+        <a href="/en/contribute/">Methodology -></a>
+      </article>
+      <article>
+        <p class="sidebar-label">Filter by period</p>
+        <a class="filter-row" href="/en/files/?era=rama">
+          <span>Rama period</span>
+          <b>{ramaCases}</b>
+        </a>
+        <a class="filter-row" href="/en/files/?era=berisha">
+          <span>Berisha period</span>
+          <b>{berishaCases}</b>
+        </a>
+        <a class="filter-row" href="/en/files/?era=cross-era">
+          <span>Cross-era</span>
+          <b>{crossEraCases}</b>
+        </a>
+      </article>
+    </aside>
+  </section>
+
+  <section class="method-band">
+    <div class="section-heading">
+      <h2>Methodology</h2>
+      <p class="lead">
+        No document, no publication. A file stays open until there is a source, date and verifiable context.
+      </p>
+    </div>
+    <div class="principles">
+      <article>
+        <span>01</span>
+        <h3>Documented evidence</h3>
+        <p>Original link, archive, date and institution. Without these, information remains a point for verification.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Not a verdict</h3>
+        <p>Files do not replace courts. They collect public questions, documents and replies from mentioned parties.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Tips are checked</h3>
+        <p>Private or alias-based submissions are not published automatically. They are reviewed and compared with documents.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

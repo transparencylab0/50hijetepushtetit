@@ -1,0 +1,141 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const cases = (await getCollection("cases-en")).sort((a, b) => {
+  const priorityOrder = { P1: 0, P2: 1, P3: 2 };
+  return priorityOrder[a.data.priority] - priorityOrder[b.data.priority] || a.data.title.localeCompare(b.data.title);
+});
+
+const statuses = [...new Set(cases.map((item) => item.data.status))];
+const years = [...new Set(cases.map((item) => item.data.year))].sort((a, b) => b - a);
+const tags = [...new Set(cases.flatMap((item) => item.data.tags))].sort();
+const statusLabels = {
+  sourced: "Sourced",
+  developing: "Developing",
+  "needs-info": "Needs info",
+  disputed: "Disputed",
+  "right-of-reply": "Right of reply"
+};
+const categoryLabels = {
+  "investime-strategjike": "Strategic investments",
+  tendera: "Tenders"
+};
+---
+
+<BaseLayout lang="en" title="Files | 50 Shades of Power" description="Index of public files and verification points.">
+  <section class="section">
+    <div class="section-heading wide">
+      <p class="eyebrow">File index</p>
+      <h1>Filter the files.</h1>
+      <p class="lead">
+        Choose period, year, priority, status and file type.
+      </p>
+    </div>
+
+    <div class="quick-filter-menu">
+      <a href="/en/files/?category=investime-strategjike" data-quick-filter data-key="category" data-value="investime-strategjike">Strategic investments</a>
+      <a href="/en/files/?category=tendera" data-quick-filter data-key="category" data-value="tendera">Tenders</a>
+      <a href="/en/files/?era=rama" data-quick-filter data-key="era" data-value="rama">Rama</a>
+      <a href="/en/files/?era=berisha" data-quick-filter data-key="era" data-value="berisha">Berisha</a>
+      <a href="/en/files/" data-clear-filters>Clear</a>
+    </div>
+
+    <div class="filters" data-case-filters data-result-label="files">
+      <label>
+        <span>Search</span>
+        <input type="search" name="q" placeholder="Name, tag, source..." autocomplete="off" />
+      </label>
+      <label>
+        <span>Priority</span>
+        <select name="priority">
+          <option value="">All</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+          <option value="P3">P3</option>
+        </select>
+      </label>
+      <label>
+        <span>Rama / Berisha</span>
+        <select name="era">
+          <option value="">All</option>
+          <option value="rama">Rama</option>
+          <option value="berisha">Berisha</option>
+          <option value="cross-era">Both</option>
+        </select>
+      </label>
+      <label>
+        <span>Year</span>
+        <select name="year">
+          <option value="">All</option>
+          {years.map((year) => <option value={String(year)}>{year}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Status</span>
+        <select name="status">
+          <option value="">All</option>
+          {statuses.map((status) => <option value={status}>{statusLabels[status]}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Type</span>
+        <select name="category">
+          <option value="">All</option>
+          {Object.entries(categoryLabels).map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Tag</span>
+        <select name="tag">
+          <option value="">All</option>
+          {tags.map((tag) => <option value={tag}>{tag}</option>)}
+        </select>
+      </label>
+    </div>
+
+    <p class="result-line" data-result-line>&gt; {cases.length} / {cases.length} files</p>
+
+    <div class="case-grid" data-case-grid>
+      {cases.map((item) => (
+        <article
+          class="case-card"
+          data-case-card
+          data-priority={item.data.priority}
+          data-era={item.data.era}
+          data-year={item.data.year}
+          data-category={item.data.category}
+          data-status={item.data.status}
+          data-tags={item.data.tags.join(" ")}
+          data-search={`${item.data.title} ${item.data.summary} ${item.data.tags.join(" ")} ${item.data.subjects.map((subject) => subject.name).join(" ")}`.toLowerCase()}
+        >
+          <div class="card-topline">
+            <span class={`priority ${item.data.priority.toLowerCase()}`}>{item.data.priority}</span>
+            <span class="status">{statusLabels[item.data.status]}</span>
+          </div>
+          <h2><a href={`/en/files/${item.id}/`}>{item.data.title}</a></h2>
+          <p>{item.data.summary}</p>
+          <div class="tag-row">
+            {item.data.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+          <dl class="mini-ledger">
+            <div>
+              <dt>Verification points</dt>
+              <dd>{item.data.redFlags.length}</dd>
+            </div>
+            <div>
+              <dt>Open questions</dt>
+              <dd>{item.data.missingInfo.filter((entry) => entry.status === "open").length}</dd>
+            </div>
+            <div>
+              <dt>Sources</dt>
+              <dd>{item.data.sources.length}</dd>
+            </div>
+          </dl>
+        </article>
+      ))}
+    </div>
+    <p class="empty-state" data-empty-state hidden>No files match these filters.</p>
+  </section>
+  <script is:inline src="/scripts/case-filters.js"></script>
+</BaseLayout>

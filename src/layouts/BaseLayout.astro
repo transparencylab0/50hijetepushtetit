@@ -1,0 +1,109 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  preloadImages?: string[];
+  lang?: "sq" | "en";
+}
+
+const {
+  title = "50hijetepushtetit",
+  description = "Dosje publike, burime të hapura dhe verifikim qytetar.",
+  preloadImages = [],
+  lang = "sq"
+} = Astro.props;
+
+const isEnglish = lang === "en";
+const navItems = isEnglish
+  ? [
+      { href: "/en/files/", label: "Files" },
+      { href: "/en/articles/", label: "Articles" },
+      { href: "/en/profiles/", label: "Profiles" },
+      { href: "/en/contribute/", label: "Contribute" },
+      { href: "/en/safety/", label: "Safety" },
+      { href: "/sq/", label: "SQ" }
+    ]
+  : [
+      { href: "/sq/rastet/", label: "Dosjet" },
+      { href: "/sq/shkrime/", label: "Shkrime" },
+      { href: "/sq/profilet/", label: "Profilet" },
+      { href: "/sq/kontribuo/", label: "Kontribuo" },
+      { href: "/sq/siguria/", label: "Siguria" },
+      { href: "/en/", label: "EN" }
+    ];
+const missionItems = isEnglish
+  ? ["Evidence", "Sources", "Right of reply", "No automation"]
+  : ["Prova", "Burime", "Përgjigje", "Pa automatizim"];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    {preloadImages.map((src) => <link rel="preload" as="image" href={src} />)}
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={isEnglish ? "/en/" : "/sq/"} aria-label={isEnglish ? "50 Shades of Power" : "50 Hijet e Pushtetit"}>
+        <span class="brand-mark" aria-hidden="true">50</span>
+        <span class="brand-copy">
+          <strong>{isEnglish ? "Shades of Power" : "Hijet e Pushtetit"}</strong>
+          <small>{isEnglish ? "Public evidence archive" : "Arkivë publike provash"}</small>
+        </span>
+      </a>
+      <nav aria-label={isEnglish ? "Main navigation" : "Navigimi kryesor"}>
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </header>
+    <div class="mission-strip" aria-hidden="true">
+      <div>
+        {missionItems.map((item, index) => (
+          <>
+            {index > 0 && <span>·</span>}
+            <span>{item}</span>
+          </>
+        ))}
+      </div>
+    </div>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      {isEnglish ? (
+        <>
+          <p>
+            50 Shades of Power is a public archive built on open sources: documents,
+            official registers and public reporting. No file here is an accusation or a finding
+            of guilt.
+          </p>
+          <p>
+            Every claim is treated as information for verification, with right of reply for
+            anyone mentioned. No analytics, no personal server, no automatic publication.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            50 Hijet e Pushtetit është arkivë publike e ndërtuar mbi burime të hapura:
+            dokumente, regjistra zyrtarë dhe raportime publike. Asnjë dosje këtu nuk është akuzë
+            dhe nuk shpall fajësi për askënd.
+          </p>
+          <p>
+            Çdo pretendim trajtohet si informacion për verifikim, me të drejtë përgjigjeje për
+            këdo që përmendet. Pa analitika, pa server personal, pa publikim automatik.
+          </p>
+        </>
+      )}
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,202 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const cases = await getCollection("cases");
+const articles = await getCollection("articles");
+const writing = articles.filter((item) => item.data.type !== "profil");
+const profiles = articles.filter((item) => item.data.type === "profil");
+const p1 = cases.filter((item) => item.data.priority === "P1").length;
+const ramaCases = cases.filter((item) => item.data.era === "rama").length;
+const berishaCases = cases.filter((item) => item.data.era === "berisha").length;
+const crossEraCases = cases.filter((item) => item.data.era === "cross-era").length;
+const priorityColor = { P1: "#c41c1c", P2: "#7a6030", P3: "#4a6840" };
+const statusLabels = {
+  sourced: "Me burime",
+  developing: "Në zhvillim",
+  "needs-info": "Mungon info",
+  disputed: "E kontestuar",
+  "right-of-reply": "Përgjigje"
+};
+const statusColor = {
+  sourced: "#1a5c2a",
+  developing: "#7a6030",
+  "needs-info": "#7c7975",
+  disputed: "#c41c1c",
+  "right-of-reply": "#7c7975"
+};
+const eraLabels = { rama: "Periudha Rama", berisha: "Periudha Berisha", "cross-era": "Të dyja periudhat" };
+const latestCases = [...cases].sort((a, b) => b.data.year - a.data.year).slice(0, 6);
+const latestArticles = [...writing]
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+const latestProfiles = [...profiles]
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+const articleTypeLabels = {
+  skandal: "Skandal",
+  profil: "Profil",
+  analize: "Analizë",
+  perditesim: "Përditësim",
+  opinion: "Opinion"
+};
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("sq-AL", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(date);
+---
+
+<BaseLayout
+  title="50hijetepushtetit | Dosje publike"
+  description="Dosje publike, burime të hapura dhe verifikim qytetar mbi pushtetin."
+  preloadImages={[
+    "/images/rama-neutral.png",
+    "/images/rama-hover.png",
+    "/images/berisha-neutral.png",
+    "/images/berisha-hover.png"
+  ]}
+>
+  <section class="home-brief">
+    <div class="home-brief-copy">
+      <div>
+        <span></span>
+        <h1>50 Hijet e Pushtetit</h1>
+      </div>
+      <p>Arkivë hetimore mbi pushtetin dhe llogaridhënien publike në Shqipëri</p>
+    </div>
+    <div class="home-brief-actions">
+      <div class="stat-strip">
+        <article>
+          <strong>{cases.length}</strong>
+          <span>dosje</span>
+        </article>
+        <article>
+          <strong>{writing.length}</strong>
+          <span>shkrime</span>
+        </article>
+        <article>
+          <strong>{profiles.length}</strong>
+          <span>profile</span>
+        </article>
+        <article>
+          <strong>{p1}</strong>
+          <span>P1</span>
+        </article>
+        <article>
+          <strong>0</strong>
+          <span>reklamë</span>
+        </article>
+      </div>
+      <a class="button primary" href="/sq/shkrime/">Shkrime →</a>
+    </div>
+  </section>
+
+  <section class="home-grid">
+    <div>
+      <div class="home-article-block">
+        <div class="list-heading">
+          <h2>Shkrimet e fundit</h2>
+          <a href="/sq/shkrime/">Shiko të gjitha →</a>
+        </div>
+        <div class="article-teaser-list">
+          {latestArticles.map((item) => (
+            <a class="article-teaser" href={`/sq/shkrime/${item.id}/`}>
+              <span>{articleTypeLabels[item.data.type]} · {formatDate(item.data.publishedAt)}</span>
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="home-article-block">
+        <div class="list-heading">
+          <h2>Profilet</h2>
+          <a href="/sq/profilet/">Shiko të gjitha →</a>
+        </div>
+        <div class="article-teaser-list">
+          {latestProfiles.map((item) => (
+            <a class="article-teaser" href={`/sq/profilet/${item.id}/`}>
+              <span>Profil · {formatDate(item.data.publishedAt)}</span>
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="list-heading">
+        <h2>Dosjet e fundit</h2>
+        <a href="/sq/rastet/">Shiko të gjitha →</a>
+      </div>
+      <div class="latest-list">
+        {latestCases.map((item) => (
+          <a class="latest-row" href={`/sq/rastet/${item.id}/`}>
+            <span class="priority" style={`color:${priorityColor[item.data.priority]}`}>{item.data.priority}</span>
+            <span class="latest-copy">
+              <strong>{item.data.title}</strong>
+              <small>{item.data.summary}</small>
+            </span>
+            <span class="latest-meta">
+              <b style={`color:${statusColor[item.data.status]}`}>{statusLabels[item.data.status]}</b>
+              <small>{eraLabels[item.data.era]}</small>
+              <small>{item.data.year}</small>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="home-sidebar">
+      <article>
+        <h3>Çfarë është kjo arkivë?</h3>
+        <p>Arkivë publike për pushtetin, interesat ekonomike dhe ndikimin në Shqipëri. Çdo dosje mbështetet te dokumente, regjistra zyrtarë dhe burime të hapura.</p>
+        <p>Asnjë dosje nuk është akuzë. Pretendimet publikohen vetëm si çështje për verifikim dhe me të drejtë përgjigjeje për palët e përmendura.</p>
+        <a href="/sq/kontribuo/">Metodologjia →</a>
+      </article>
+      <article>
+        <p class="sidebar-label">Filtro sipas periudhës</p>
+        <a class="filter-row" href="/sq/rastet/?era=rama">
+          <span>Periudha Rama</span>
+          <b>{ramaCases}</b>
+        </a>
+        <a class="filter-row" href="/sq/rastet/?era=berisha">
+          <span>Periudha Berisha</span>
+          <b>{berishaCases}</b>
+        </a>
+        <a class="filter-row" href="/sq/rastet/?era=cross-era">
+          <span>Ndër-epokale</span>
+          <b>{crossEraCases}</b>
+        </a>
+      </article>
+    </aside>
+  </section>
+
+  <section class="method-band">
+    <div class="section-heading">
+      <h2>Metodologjia</h2>
+      <p class="lead">
+        Pa dokument, nuk ka publikim. Dosja mbetet e hapur derisa të ketë burim, datë dhe kontekst të verifikueshëm.
+      </p>
+    </div>
+    <div class="principles">
+      <article>
+        <span>01</span>
+        <h3>Prova e dokumentuar</h3>
+        <p>Link origjinal, arkivë, datë dhe institucion. Pa këto, informacioni mbetet vetëm pikë për verifikim.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Jo vendim fajësie</h3>
+        <p>Dosjet nuk zëvendësojnë gjykatën. Ato mbledhin pyetje publike, dokumente dhe përgjigje nga palët e përmendura.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Kontributet verifikohen</h3>
+        <p>Informacionet private ose nga adresa alias nuk publikohen automatikisht. Ato shqyrtohen, krahasohen me dokumente dhe trajtohen me kujdes redaksional.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

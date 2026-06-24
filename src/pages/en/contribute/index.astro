@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const inbox = "thetourist1@proton.me";
+const contributionSubject = encodeURIComponent("Contribution for 50 Shades of Power");
+const contributionBody = encodeURIComponent(`Contribution type:\n\nFile / article:\n\nSources / documents / links:\n- \n\nWhat does this source prove or clarify?\n\n\nNotes:\n`);
+const contributionUrl = `mailto:${inbox}?subject=${contributionSubject}&body=${contributionBody}`;
+const privateSubject = encodeURIComponent("Private information for verification");
+const privateBody = encodeURIComponent(`Information:\n\n\nSources, if any:\n- \n\nNote: this submission is not published automatically. If you need more privacy, send from Proton, SimpleLogin or another email alias.\n`);
+const privateUrl = `mailto:${inbox}?subject=${privateSubject}&body=${privateBody}`;
+---
+
+<BaseLayout lang="en" title="Contribute | 50 Shades of Power" description="How to send documents, sources or information for verification.">
+  <section class="section narrow">
+    <p class="eyebrow">Civic contribution</p>
+    <h1>Send documents, not rumours.</h1>
+    <p class="lead">
+      The goal is to strengthen files with public sources, not publish unsupported accusations.
+    </p>
+
+    <div class="guide-stack">
+      <article>
+        <h2>Read safety first for sensitive material</h2>
+        <p>
+          If the information could put you at risk, do not send it immediately from a personal email.
+          Read the basic steps on Tor, email aliases, metadata and the limits of anonymity.
+        </p>
+        <a class="button secondary" href="/en/safety/">Source safety guide</a>
+      </article>
+      <article>
+        <h2>What is accepted</h2>
+        <p>
+          Public documents, court decisions, procurement bulletins, asset declarations, citable reporting,
+          official registers and archives.
+        </p>
+      </article>
+      <article>
+        <h2>How to cite</h2>
+        <p>
+          Send the original link, an archive link when possible, the date, institution or publisher,
+          and a short explanation of why the source matters to the file.
+        </p>
+      </article>
+      <article>
+        <h2>Contribution without an account</h2>
+        <p>
+          For corrections or new sources, send a structured email. There is no login, private panel
+          or automatic publication; everything is added manually after review.
+        </p>
+        <a class="button primary" href={contributionUrl}>Send contribution</a>
+      </article>
+      <article>
+        <h2>Private information</h2>
+        <p>
+          Normal email is not anonymous by itself. If you do not want to link information to your
+          personal address, use Proton, SimpleLogin or another alias. Information is used for
+          verification and is not published automatically.
+        </p>
+        <a class="button secondary" href={privateUrl}>Send private information</a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

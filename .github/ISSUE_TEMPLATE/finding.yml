@@ -1,0 +1,56 @@
+name: Submit a finding
+description: Add a public-source finding or red flag for review.
+title: "Finding: "
+labels: ["needs-review", "source-needed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use public sources only. Do not include private addresses, phone numbers, or unsourced accusations.
+  - type: input
+    id: case
+    attributes:
+      label: Case
+      description: Which case page does this finding relate to?
+      placeholder: "model-rast-prokurim-publik"
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: Finding / red flag
+      description: State the finding carefully and neutrally.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Public sources
+      description: Add original URLs, publishers, dates, and archive links if available.
+      placeholder: |
+        - Original:
+        - Archive:
+        - Date:
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested priority
+      options:
+        - P1
+        - P2
+        - P3
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I included public sources.
+          required: true
+        - label: I did not include private personal data.
+          required: true
+        - label: I understand anonymous tips should be sent by email instead.
+          required: true

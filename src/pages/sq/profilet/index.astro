@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const profiles = (await getCollection("articles"))
+  .filter((item) => item.data.type === "profil")
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("sq-AL", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+---
+
+<BaseLayout title="Profilet | 50hijetepushtetit" description="Profile publike te figurave politike dhe institucionale, me burime dhe pyetje te hapura.">
+  <section class="section article-index">
+    <div class="section-heading wide">
+      <p class="eyebrow">Profilet</p>
+      <h1>Figura publike, te lexuara permes dokumenteve.</h1>
+      <p class="lead">
+        Profile te shkurtra per role politike dhe institucionale: cfare pushteti kane mbajtur,
+        cilat ngjarje lidhen me mandatin e tyre dhe cilat dokumente duhen ndjekur.
+      </p>
+    </div>
+
+    <div class="article-list">
+      {profiles.map((item) => (
+        <article class="article-row profile-row">
+          <div class="article-row-meta">
+            <span>Profil</span>
+            <time datetime={item.data.publishedAt.toISOString()}>{formatDate(item.data.publishedAt)}</time>
+          </div>
+          {item.data.image && (
+            <a class="profile-thumb" href={`/sq/profilet/${item.id}/`} aria-label={`Hap ${item.data.title}`}>
+              <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
+            </a>
+          )}
+          <div class="article-row-copy">
+            <h2><a href={`/sq/profilet/${item.id}/`}>{item.data.title}</a></h2>
+            <p>{item.data.summary}</p>
+            <div class="tag-row">
+              {item.data.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+          </div>
+          <a class="read-link" href={`/sq/profilet/${item.id}/`}>Lexo</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

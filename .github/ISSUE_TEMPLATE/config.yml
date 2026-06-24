@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private or alias-based tip
+    url: mailto:thetourist1@proton.me
+    about: Send sensitive leads by Proton, SimpleLogin or another alias email. Tips are not anonymous by default and are not auto-published.

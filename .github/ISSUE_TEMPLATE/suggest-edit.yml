@@ -1,0 +1,42 @@
+name: Suggest an edit
+description: Suggest a correction, wording change, source update, or metadata edit.
+title: "Sugjerim editimi: "
+labels: ["suggested-edit", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GitHub eshte publik. Mos vendos dokumente private, adresa, numra telefoni ose informacione sensitive ketu. Per materiale sensitive, dergo email nga Proton, SimpleLogin ose nje alias. Sugjerimet nuk publikohen automatikisht. Perdor burime, dokumente ose linke kur ndryshimi prek fakte.
+  - type: input
+    id: case
+    attributes:
+      label: Dosja
+      description: Cila dosje duhet ndryshuar?
+    validations:
+      required: true
+  - type: dropdown
+    id: edit_type
+    attributes:
+      label: Tipi i editimit
+      options:
+        - Korrigjim fakti
+        - Shtim burimi
+        - Ndryshim formulimi
+        - Ndryshim statusi/prioriteti/viti
+        - E drejta e pergjigjes
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Sugjerimi
+      description: Shkruaj qarte cfare duhet ndryshuar.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Burime / dokumente / linke
+      description: Vendos link origjinal, arkive, date dhe institucion/media.
+    validations:
+      required: false

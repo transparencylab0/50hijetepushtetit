@@ -1,0 +1,24 @@
+<svg width="430" height="96" viewBox="0 0 430 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">50hijet e pushtetit</title>
+  <desc id="desc">Logo terminale per arkiven 50hijet e pushtetit</desc>
+  <rect x="2" y="2" width="426" height="92" fill="#050806" stroke="#D2A847" stroke-width="2"/>
+  <rect x="12" y="11" width="72" height="74" fill="#07110E" stroke="#D2A847" stroke-opacity="0.58"/>
+  <g opacity="0.36">
+    <path d="M21 23H74" stroke="#54FFA7"/>
+    <path d="M21 33H74" stroke="#54FFA7"/>
+    <path d="M21 43H74" stroke="#54FFA7"/>
+    <path d="M21 53H74" stroke="#54FFA7"/>
+    <path d="M21 63H74" stroke="#54FFA7"/>
+    <path d="M31 17V78" stroke="#54FFA7"/>
+    <path d="M52 17V78" stroke="#54FFA7"/>
+  </g>
+  <path d="M25 72L70 25" stroke="#D72B35" stroke-width="4" stroke-linecap="square"/>
+  <path d="M64 25H72V33" stroke="#D72B35" stroke-width="4" stroke-linecap="square"/>
+  <text x="29" y="58" fill="#D2A847" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="31" font-weight="900">50</text>
+  <path d="M102 26H410" stroke="#54FFA7" stroke-width="2"/>
+  <path d="M385 18H411V36" stroke="#D72B35" stroke-width="2"/>
+  <text x="101" y="54" fill="#F5EAD0" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="28" font-weight="900">50hijet</text>
+  <text x="236" y="54" fill="#54FFA7" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="28" font-weight="900">e</text>
+  <text x="269" y="54" fill="#F5EAD0" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="28" font-weight="900">pushtetit</text>
+  <text x="102" y="74" fill="#B8A98C" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="10" font-weight="900" letter-spacing="1.5">DOSJE PUBLIKE / PROVA / VERIFIKIM</text>
+</svg>

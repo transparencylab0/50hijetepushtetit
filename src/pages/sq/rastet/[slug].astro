@@ -1,0 +1,231 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const cases = await getCollection("cases");
+  return cases.map((item) => ({
+    params: { slug: item.id },
+    props: { item }
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const sourceById = new Map(item.data.sources.map((source) => [source.id, source]));
+const statusLabels = {
+  sourced: "Me burime",
+  developing: "Në zhvillim",
+  "needs-info": "Mungon info",
+  disputed: "E kontestuar",
+  "right-of-reply": "Përgjigje"
+};
+const tipStatusLabels = {
+  "pending-source": "Pret burim",
+  "needs-review": "Në verifikim",
+  verified: "I verifikuar",
+  rejected: "I refuzuar"
+};
+const missingPriorityLabels = {
+  high: "prioritet i lartë",
+  medium: "prioritet mesatar",
+  low: "prioritet i ulët"
+};
+const missingStatusLabels = {
+  open: "e hapur",
+  submitted: "e dërguar",
+  resolved: "e mbyllur"
+};
+const severityLabels = {
+  high: "i lartë",
+  medium: "mesatar",
+  low: "i ulët"
+};
+const inbox = "thetourist1@proton.me";
+const editSubject = encodeURIComponent(`Sugjerim editimi: ${item.data.title}`);
+const editBody = encodeURIComponent(`Dosja: ${item.data.title}\n\nÇfarë duhet ndryshuar?\n\n\nTeksti / pjesa ku lidhet:\n\n\nBurime mbështetëse:\n- Link origjinal:\n- Link arkive:\n- Datë:\n- Institucion/media:\n\nShënim: Sugjerimi nuk publikohet automatikisht. Duhet verifikim dhe burime.\n`);
+const editUrl = `mailto:${inbox}?subject=${editSubject}&body=${editBody}`;
+const sourceSubject = encodeURIComponent(`Burim për dosjen: ${item.data.title}`);
+const sourceBody = encodeURIComponent(`Dosja: ${item.data.title}\n\nBurimi / dokumenti:\n- Link origjinal:\n- Link arkive:\n- Datë:\n- Institucion/media:\n\nÇfarë provon ose sqaron ky burim?\n\n\nShënime verifikimi:\n\n`);
+const sourceUrl = `mailto:${inbox}?subject=${sourceSubject}&body=${sourceBody}`;
+const tipSubject = encodeURIComponent(`Informacion privat: ${item.data.title}`);
+const tipBody = encodeURIComponent(`Dosja: ${item.data.title}\n\nInformacioni:\n\n\nBurime, nëse ka:\n- \n\nShënim: Kjo nuk publikohet automatikisht. Nëse do më shumë privatësi, dërgo nga Proton, SimpleLogin ose një alias emaili.\n`);
+const tipUrl = `mailto:${inbox}?subject=${tipSubject}&body=${tipBody}`;
+---
+
+<BaseLayout title={`${item.data.title} | 50hijetepushtetit`} description={item.data.summary}>
+  <article class="case-page">
+    <header class="case-hero">
+      <div>
+        <p class="eyebrow">Dosje publike</p>
+        <h1>{item.data.title}</h1>
+        <p class="lead">{item.data.summary}</p>
+        <p class="legal-note"><a href={`/en/files/${item.id}/`}>Open English version</a></p>
+        {item.data.image && (
+          <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
+            <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
+            <figcaption>
+              {item.data.image.sourceUrl ? (
+                <a href={item.data.image.sourceUrl}>{item.data.image.credit}</a>
+              ) : (
+                <span>{item.data.image.credit}</span>
+              )}
+              {item.data.image.license && <span>{item.data.image.license}</span>}
+            </figcaption>
+          </figure>
+        )}
+      </div>
+      <aside class="case-stamp" aria-label="Vlerësimi i dosjes">
+        <span class={`priority ${item.data.priority.toLowerCase()}`}>{item.data.priority}</span>
+        <strong>{statusLabels[item.data.status]}</strong>
+        <small>Pika për verifikim dhe gjetje dokumentare, jo vendim fajësie.</small>
+      </aside>
+    </header>
+
+    <section class="case-section">
+      <h2>Subjektet</h2>
+      <div class="subject-list">
+        {item.data.subjects.map((subject) => (
+          <article>
+            <strong>{subject.name}</strong>
+            <span>{subject.role}</span>
+            <small>{subject.type}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section prose">
+      <h2>Shënim editorial</h2>
+      <Content />
+    </section>
+
+    <section class="case-section">
+      <h2>Gjetje për verifikim</h2>
+      <div class="redflag-list">
+        {item.data.redFlags.map((flag) => (
+          <article class={`redflag ${flag.severity}`}>
+            <div>
+              <strong>{flag.title}</strong>
+              <span>{severityLabels[flag.severity]}</span>
+            </div>
+            <p>{flag.description}</p>
+            <p class="source-pills">
+              {flag.sources.map((sourceId) => {
+                const source = sourceById.get(sourceId);
+                return source ? <a href={source.url}>{source.publisher}</a> : <span>{sourceId}</span>;
+              })}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section">
+      <h2>Çfarë mungon</h2>
+      <ul class="missing-list">
+        {item.data.missingInfo.map((entry) => (
+          <li>
+            <span class={`dot ${entry.status}`}></span>
+            <div>
+              <strong>{entry.question}</strong>
+              <small>{missingPriorityLabels[entry.priority]} · {missingStatusLabels[entry.status]}</small>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="case-section">
+      <h2>Timeline</h2>
+      <ol class="timeline">
+        {item.data.timeline.map((entry) => (
+          <li>
+            <time>{entry.date}</time>
+            <p>{entry.event}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="case-section">
+      <h2>Burimet</h2>
+      <div class="source-table">
+        {item.data.sources.map((source) => (
+          <article>
+            <div>
+              <strong>{source.title}</strong>
+              <span>{source.publisher}{source.date ? ` · ${source.date}` : ""}</span>
+              {source.note && <small>{source.note}</small>}
+            </div>
+            <div class="source-actions">
+              <a href={source.url}>{source.linkLabel ?? "Burimi"}</a>
+              {source.archiveUrl && <a href={source.archiveUrl}>Arkiva</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="case-section response-box" id="kontribuo">
+      <h2>Dërgo burim ose korrigjim</h2>
+      <p>
+        Dërgo vetëm materiale që ndihmojnë verifikimin: dokumente, linke origjinale,
+        arkiva, data, institucione ose korrigjime konkrete. Asgjë nuk publikohet automatikisht.
+      </p>
+      <div class="thread-toolbar">
+        <a class="button primary" href={tipUrl}>Dërgo informacion privat</a>
+        <a class="button secondary" href={sourceUrl}>Shto burim</a>
+        <a class="button secondary" href={editUrl}>Sugjero editim</a>
+      </div>
+      <p class="legal-note">
+        Emaili hap klientin tënd të postës. Nëse do privatësi më të fortë, mos përdor adresën personale.
+        Lexo edhe <a href="/sq/siguria/">udhëzuesin e sigurisë</a>. E drejta e përgjigjes vlen për çdo subjekt të përmendur.
+      </p>
+    </section>
+
+    {item.data.communityTips.length > 0 && (
+      <section class="case-section comments" id="kontribute">
+        <h2>Informacione të shqyrtuara</h2>
+        <p class="legal-note">
+          Këto shfaqen vetëm kur shtohen manualisht pas kontrollit redaksional. Kur prekin fakte,
+          duhet të lidhen me burime, dokumente ose linke.
+        </p>
+        <div class="thread-list">
+          {item.data.communityTips.map((tip) => (
+            <article class="thread-card">
+              <div class="thread-meta">
+                <span>{tip.author}</span>
+                <time>{tip.date}</time>
+                <b>{tipStatusLabels[tip.status]}</b>
+              </div>
+              <h3>{tip.title}</h3>
+              <p>{tip.body}</p>
+              {tip.links.length > 0 && (
+                <p class="source-pills">
+                  {tip.links.map((link) => <a href={link}>Burim</a>)}
+                </p>
+              )}
+              <div class="reply-list">
+                {tip.replies.map((reply) => (
+                  <article class="reply-card">
+                    <div class="thread-meta">
+                      <span>{reply.author}</span>
+                      <time>{reply.date}</time>
+                    </div>
+                    <p>{reply.body}</p>
+                    {reply.links.length > 0 && (
+                      <p class="source-pills">
+                        {reply.links.map((link) => <a href={link}>Burim</a>)}
+                      </p>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>
