@@ -5,3 +5,21 @@ dist/
 .env.*
 npm-debug.log*
 public/sources/*.pdf
+.DS_Store
+
+# Local/private research artifacts
+data/
+investigations/
+output/
+outputs/
+tmp/
+scripts/
+public/data/albanian-files/
+
+# Sensitive/generated research screens not used by the public atlas route
+src/data/albanianFilesDataAudit.generated.json
+src/data/albanianFilesEntityScreening.ts
+src/data/albanianFilesFlagRelevance.generated.json
+src/data/albanianFilesInvestigationFlags.generated.json
+src/data/albanianFilesLocationGazetteer.generated.json
+src/data/albanianFilesSourceReview.generated.json

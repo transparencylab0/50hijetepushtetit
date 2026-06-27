@@ -1,21 +1,79 @@
 ---
 import "../styles/global.css";
 
+type AlternateLink = {
+  lang: "sq" | "en" | "x-default";
+  path: string;
+};
+
 interface Props {
   title?: string;
   description?: string;
   preloadImages?: string[];
   lang?: "sq" | "en";
+  canonicalPath?: string;
+  alternateLinks?: AlternateLink[];
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string | Date;
+  modifiedTime?: string | Date;
+  robots?: string;
+  jsonLd?: unknown | unknown[];
+  appShell?: boolean;
 }
 
 const {
   title = "50hijetepushtetit",
   description = "Dosje publike, burime të hapura dhe verifikim qytetar.",
   preloadImages = [],
-  lang = "sq"
+  lang = "sq",
+  canonicalPath,
+  alternateLinks = [],
+  image = "/og-default.svg",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  robots = "index, follow, max-image-preview:large",
+  jsonLd = [],
+  appShell = false
 } = Astro.props;
 
+const site = Astro.site ?? new URL("https://50hijetepushtetit.com");
 const isEnglish = lang === "en";
+const siteName = isEnglish ? "50 Shades of Power" : "50 Hijet e Pushtetit";
+const siteDescription = isEnglish
+  ? "Public files, open sources and civic verification on power in Albania."
+  : "Dosje publike, burime të hapura dhe verifikim qytetar mbi pushtetin.";
+const locale = isEnglish ? "en_US" : "sq_AL";
+const alternateLocales = alternateLinks
+  .filter((item) => item.lang !== lang && item.lang !== "x-default")
+  .map((item) => (item.lang === "en" ? "en_US" : "sq_AL"));
+const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, site).toString();
+const imageUrl = new URL(image, site).toString();
+const normalizedJsonLd = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+const baseJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "50 Hijet e Pushtetit",
+    alternateName: "50 Shades of Power",
+    url: new URL("/", site).toString(),
+    logo: new URL("/logo.svg", site).toString()
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteName,
+    alternateName: isEnglish ? "50 Hijet e Pushtetit" : "50 Shades of Power",
+    url: new URL(isEnglish ? "/en/" : "/sq/", site).toString(),
+    inLanguage: lang,
+    description: siteDescription
+  }
+];
+const jsonLdBlocks = [...baseJsonLd, ...normalizedJsonLd]
+  .filter(Boolean)
+  .map((entry) => JSON.stringify(entry).replace(/</g, "\\u003c"));
+const formatMetaDate = (date: string | Date) => (date instanceof Date ? date.toISOString() : date);
 const navItems = isEnglish
   ? [
       { href: "/en/files/", label: "Files" },
@@ -43,67 +101,92 @@ const missionItems = isEnglish
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    {alternateLinks.map((item) => <link rel="alternate" hreflang={item.lang} href={new URL(item.path, site).toString()} />)}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     {preloadImages.map((src) => <link rel="preload" as="image" href={src} />)}
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={siteName} />
+    <meta property="og:locale" content={locale} />
+    {alternateLocales.map((alternateLocale) => <meta property="og:locale:alternate" content={alternateLocale} />)}
+    {type === "article" && publishedTime && <meta property="article:published_time" content={formatMetaDate(publishedTime)} />}
+    {type === "article" && modifiedTime && <meta property="article:modified_time" content={formatMetaDate(modifiedTime)} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    {jsonLdBlocks.map((block) => <script is:inline type="application/ld+json" set:html={block} />)}
     <title>{title}</title>
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href={isEnglish ? "/en/" : "/sq/"} aria-label={isEnglish ? "50 Shades of Power" : "50 Hijet e Pushtetit"}>
-        <span class="brand-mark" aria-hidden="true">50</span>
-        <span class="brand-copy">
-          <strong>{isEnglish ? "Shades of Power" : "Hijet e Pushtetit"}</strong>
-          <small>{isEnglish ? "Public evidence archive" : "Arkivë publike provash"}</small>
-        </span>
-      </a>
-      <nav aria-label={isEnglish ? "Main navigation" : "Navigimi kryesor"}>
-        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
-      </nav>
-    </header>
-    <div class="mission-strip" aria-hidden="true">
-      <div>
-        {missionItems.map((item, index) => (
-          <>
-            {index > 0 && <span>·</span>}
-            <span>{item}</span>
-          </>
-        ))}
-      </div>
-    </div>
-    <main>
+  <body class:list={[appShell && "app-shell-page"]}>
+    {!appShell && (
+      <>
+        <header class="site-header">
+          <a class="brand" href={isEnglish ? "/en/" : "/sq/"} aria-label={isEnglish ? "50 Shades of Power" : "50 Hijet e Pushtetit"}>
+            <span class="brand-mark" aria-hidden="true">50</span>
+            <span class="brand-copy">
+              <strong>{isEnglish ? "Shades of Power" : "Hijet e Pushtetit"}</strong>
+              <small>{isEnglish ? "Public evidence archive" : "Arkivë publike provash"}</small>
+            </span>
+          </a>
+          <nav aria-label={isEnglish ? "Main navigation" : "Navigimi kryesor"}>
+            {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          </nav>
+        </header>
+        <div class="mission-strip" aria-hidden="true">
+          <div>
+            {missionItems.map((item, index) => (
+              <>
+                {index > 0 && <span>·</span>}
+                <span>{item}</span>
+              </>
+            ))}
+          </div>
+        </div>
+      </>
+    )}
+    <main class:list={[appShell && "app-shell-main"]}>
       <slot />
     </main>
-    <footer class="site-footer">
-      {isEnglish ? (
-        <>
-          <p>
-            50 Shades of Power is a public archive built on open sources: documents,
-            official registers and public reporting. No file here is an accusation or a finding
-            of guilt.
-          </p>
-          <p>
-            Every claim is treated as information for verification, with right of reply for
-            anyone mentioned. No analytics, no personal server, no automatic publication.
-          </p>
-        </>
-      ) : (
-        <>
-          <p>
-            50 Hijet e Pushtetit është arkivë publike e ndërtuar mbi burime të hapura:
-            dokumente, regjistra zyrtarë dhe raportime publike. Asnjë dosje këtu nuk është akuzë
-            dhe nuk shpall fajësi për askënd.
-          </p>
-          <p>
-            Çdo pretendim trajtohet si informacion për verifikim, me të drejtë përgjigjeje për
-            këdo që përmendet. Pa analitika, pa server personal, pa publikim automatik.
-          </p>
-        </>
-      )}
-    </footer>
+    {!appShell && (
+      <footer class="site-footer">
+        {isEnglish ? (
+          <>
+            <p>
+              50 Shades of Power is a public archive built on open sources: documents,
+              official registers and public reporting. No file here is an accusation or a finding
+              of guilt.
+            </p>
+            <p>
+              Every claim is treated as information for verification, with right of reply for
+              anyone mentioned. No analytics, no personal server, no automatic publication.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              50 Hijet e Pushtetit është arkivë publike e ndërtuar mbi burime të hapura:
+              dokumente, regjistra zyrtarë dhe raportime publike. Asnjë dosje këtu nuk është akuzë
+              dhe nuk shpall fajësi për askënd.
+            </p>
+            <p>
+              Çdo pretendim trajtohet si informacion për verifikim, me të drejtë përgjigjeje për
+              këdo që përmendet. Pa analitika, pa server personal, pa publikim automatik.
+            </p>
+          </>
+        )}
+      </footer>
+    )}
   </body>
 </html>

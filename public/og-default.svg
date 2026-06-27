@@ -1,0 +1,27 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">50 Hijet e Pushtetit</title>
+  <desc id="desc">Default social preview image for the public evidence archive.</desc>
+  <rect width="1200" height="630" fill="#050806"/>
+  <rect x="48" y="48" width="1104" height="534" fill="#07110E" stroke="#D2A847" stroke-width="3"/>
+  <g opacity="0.25">
+    <path d="M92 118H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M92 188H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M92 258H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M92 328H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M92 398H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M92 468H1108" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M180 84V546" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M360 84V546" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M540 84V546" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M720 84V546" stroke="#54FFA7" stroke-width="2"/>
+    <path d="M900 84V546" stroke="#54FFA7" stroke-width="2"/>
+  </g>
+  <path d="M1096 82H1130V116" stroke="#D72B35" stroke-width="5"/>
+  <path d="M96 548H130V514" stroke="#D72B35" stroke-width="5"/>
+  <text x="96" y="204" fill="#D2A847" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="132" font-weight="900">50</text>
+  <text x="96" y="316" fill="#F5EAD0" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="84" font-weight="900">Hijet e Pushtetit</text>
+  <text x="100" y="394" fill="#54FFA7" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="36" font-weight="800">PUBLIC EVIDENCE ARCHIVE</text>
+  <text x="100" y="464" fill="#B8A98C" font-family="SFMono-Regular, Cascadia Code, JetBrains Mono, Consolas, monospace" font-size="28" font-weight="700">DOSJE PUBLIKE / BURIME / VERIFIKIM QYTETAR</text>
+  <path d="M900 398L1064 230" stroke="#D72B35" stroke-width="10" stroke-linecap="square"/>
+  <path d="M1034 230H1070V266" stroke="#D72B35" stroke-width="10" stroke-linecap="square"/>
+</svg>
