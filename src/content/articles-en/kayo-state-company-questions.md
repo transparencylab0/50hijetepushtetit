@@ -9,6 +9,15 @@ rightOfReply: true
 publishedAt: 2026-07-16
 updatedAt: 2026-07-16
 tags: ["KAYO", "defence industry", "public money", "transparency", "political connections"]
+keyFacts:
+  - value: "EUR 23.4M"
+    label: "reported TIMAK DEFENCE payments"
+  - value: "5"
+    label: "joint ventures"
+  - value: "EUR 490"
+    label: "price for 49% of TIMAK"
+  - value: "EUR 59M"
+    label: "reported MSSC state contracts"
 relatedArticles: ["pashalimani-pyetjet-qe-duhen-dokumente"]
 sources:
   - title: "KAYO: public company registry"

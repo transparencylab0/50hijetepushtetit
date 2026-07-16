@@ -108,6 +108,12 @@ const articleSchema = z.object({
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
   tags: z.array(z.string()).default([]),
+  keyFacts: z.array(
+    z.object({
+      value: z.string(),
+      label: z.string()
+    })
+  ).default([]),
   relatedCases: z.array(z.string()).default([]),
   relatedArticles: z.array(z.string()).default([]),
   image: imageSchema.optional(),

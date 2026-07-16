@@ -11,6 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { item } = Astro.props;
+const keyFacts = item.data.keyFacts ?? [];
 const { Content } = await render(item);
 const cases = await getCollection("cases-en");
 const albanianArticles = (await getCollection("articles")).filter((article) => article.data.type !== "profil");
@@ -58,6 +59,16 @@ const formatDate = (date: Date) =>
       <div class="tag-row">
         {item.data.tags.map((tag) => <span>{tag}</span>)}
       </div>
+      {keyFacts.length > 0 && (
+        <div class="article-facts" aria-label="Key figures">
+          {keyFacts.map((fact) => (
+            <div class="article-fact">
+              <strong>{fact.value}</strong>
+              <span>{fact.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
       {item.data.disclaimer && <p class="article-disclaimer">{item.data.disclaimer}</p>}
       {item.data.image && (
         <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
