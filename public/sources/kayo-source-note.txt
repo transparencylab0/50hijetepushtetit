@@ -1,0 +1,138 @@
+50 hijet e pushtetit - KAYO defence industry source note
+
+Public source note for editorial review, date 2026-07-06.
+
+Purpose
+
+This note supports the KAYO investigation with a public-facing map of sources.
+It is not a court finding and does not declare guilt. It separates primary
+records, documentary reporting, media allegations, and open verification gaps.
+
+Evidence grades used in the working file
+
+- A: Primary record: law, VKM, QKB/OpenCorporates registry, treasury data,
+  court filing, company report, or official statement.
+- B: Reputable documentary reporting that cites named records, official
+  statements, filings, or direct quotes.
+- C: Media allegation, unnamed-source reporting, resident/opposition claim, or
+  interpretive claim that must be attributed in the article.
+- D: Not yet source-ready as an assertion; soften, remove, or convert into a
+  public question.
+
+Primary records already identified
+
+- KAYO registry profile, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M42216020F
+  Verifies KAYO NIPT M42216020F, administrator Ardi Veliu, state ownership by
+  the Ministry of Defence, founding date shown by the registry, listed
+  controlled companies/JVs, and linked VKM records.
+
+- TIMAK registry profile, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/L62030020B
+  Verifies TIMAK NIPT L62030020B, object of activity, ownership changes,
+  Arjeta Puca 51%, Ron Yeffet 49%, and the June 17, 2025 share transfer price
+  of 49,000 lek.
+
+- TIMAK DEFENCE registry profile, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M52013004D
+  Verifies TIMAK DEFENCE NIPT M52013004D, administrator Arjeta Puca, TIMAK 80%,
+  KAYO 20%, and beneficial-owner exposure through Arjeta Puca and Ron Yeffet.
+
+- MKD registry pointer, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M52008029J
+  To verify MKD/Myslym Keta Defence details, including MSSC 80%, KAYO 20%, and
+  administrator Gentian Karaj.
+
+- GUNA TACTICAL registry pointer, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M52008021O
+  To verify GUNA TACTICAL details, including KAYO 51%, MSSC 49%, and
+  administrator Leonard Qyra.
+
+- ADVANCED ARMS TECHNOLOGY registry pointer, OpenCorporates.al / QKB-derived
+  data:
+  https://opencorporates.al/sq/nipt/M52319020B
+  To verify ADVANCED ARMS TECHNOLOGY details, including UNO18 80%, KAYO 20%,
+  and administrator Arjeta Puca.
+
+- UNO18 registry pointer, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M42104006A
+  To verify UNO18 ownership and link to Ron Yeffet.
+
+- Elbit Systems Ltd. branch in Albania, OpenCorporates.al / QKB-derived data:
+  https://opencorporates.al/sq/nipt/M61712022Q
+  Verifies the Albanian branch registration and links to VKM No. 496, dated
+  2025-09-10, on the Albania-Israel defence-capabilities framework agreement.
+
+- TIMAK DEFENCE treasury pointer:
+  https://spending.data.al/sq/treasury/list/year/2019/perf_id/TIMAKDEFENCE
+  Used as the Open Spending Albania entry point for treasury transactions.
+  The working matrix must export and preserve the relevant rows before final
+  publication.
+
+- KAYO treasury pointer:
+  https://spending.data.al/sq/treasury/list/year/2019/perf_id/KAYO
+  Used as the Open Spending Albania entry point for treasury transactions.
+
+- Fincantieri official press releases and annual reports:
+  https://www.fincantieri.com/en/media/press-releases/
+  https://www.fincantieri.com/en/investors/financial-statements/
+  Used to verify the KAYO-Fincantieri public partnership timeline and any
+  Fincantieri-disclosed Albania material.
+
+Key VKMs and official decisions to attach or archive
+
+- VKM No. 291, dated 2025-05-28: negotiation conditions for KAYO with private
+  companies for military uniforms and accessories.
+- VKM No. 410, dated 2025-07-16: transfer/use of properties No. 173 and No.
+  174 in Babru, Tirana, to KAYO.
+- VKM No. 449, dated 2025-07-31: negotiation conditions for KAYO with private
+  companies for small/medium-calibre weapons and drones.
+- VKM No. 496, dated 2025-09-10: Albania-Israel defence-capabilities framework
+  agreement.
+- VKM No. 254, dated 2026-04-10: negotiation conditions for a KAYO joint
+  venture involving unmanned aircraft.
+- Law 88/2024 and implementing acts governing KAYO's mandate, joint ventures,
+  property use, defence/security procurement, and classified contracting.
+
+Media and documentary reporting buckets
+
+- Pamfleti / Kapitali: use for Yeffet litigation details, alleged Rama links,
+  TIMAK/Idrizi network claims, alleged offshore or hidden-ownership plans, and
+  reported Ministry-of-Defence source claims. Grade C unless backed by filings
+  or registry records.
+- Hashtag.al, VoxNews, BalkanWeb, Sot News, Timoni.al: use for treasury-flow
+  reporting, MSSC/Dusha reporting, News24 eviction reporting, Kodër Babrru
+  resident claims, opposition statements, and political allegations. Grade B
+  where documents are named; grade C where sourcing is anonymous or adversarial.
+- BIRN, OSCE, EU Delegation, RSF, SafeJournalists: use for News24/media-freedom
+  condemnation and public-interest context. Grade B unless the underlying
+  legal property record is attached.
+- Haaretz, Follow The Money, The Defense Post, DIMSE, SeeNews, Albanian Times:
+  use for international confirmation of defence-industry, Elbit, Fincantieri,
+  NATO/NSPA, and regional procurement context.
+- Transparency International: use for Air Albania / public-private governance
+  context, not as proof of KAYO facts.
+
+High-risk claims that need primary backup before being stated as fact
+
+- Exact TIMAK DEFENCE treasury total and each payment date/value.
+- Exact MSSC cumulative state-contract total and the proportion awarded through
+  direct negotiation.
+- SPAK status for MSSC, Emiljano Dusha, Dorjan Ducka, Belinda Balluku, or any
+  other named person.
+- Claims that tenders were rigged, that companies were used as fronts, or that
+  named individuals trafficked weapons.
+- The alleged Elbit sovereign-guarantee amount, interest exposure, and financing
+  structure.
+- The Kodër Babrru safety-buffer breach, permit description, cadastral plots,
+  ownership status, and lack of consent.
+- Any claim that News24 files were removed from computers or that enforcement
+  occurred without a court order.
+- Claims about Senegal, Togo, Miami-Dade litigation, and the "$30 million
+  Albanian project" until the docket records are attached.
+
+Publication rule
+
+Primary-record claims can be stated directly. Media-only claims should be
+phrased as attributed reporting. Unsupported assertions should become questions
+or be removed from the publishable article.
