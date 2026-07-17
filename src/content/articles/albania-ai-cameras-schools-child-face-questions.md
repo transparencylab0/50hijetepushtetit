@@ -1,6 +1,6 @@
 ---
 title: "Shqiperia vendosi kamera me AI ne shkolla. Tani pyesni cfare ndodh me fytyren e femijes tuaj."
-summary: "Faza e pare e Smart City perfshin 20 shkolla ne Tirane. Qeveria e quan siguri. Pyetja qe mungon eshte nese Shqiperia po nderton nje pilot survejimi mbi femijet para se ligji ta kete kapur teknologjine."
+summary: "Faza e pare e Smart City perfshin 20 shkolla ne Tirane. Qeveria e quan siguri. Pyetjet qe mungojne jane per njohjen e fytyres, nxjerrjen e te dhenave nga telefoni, monitorimin e medias dhe vendin ku shkojne te dhenat e femijeve shqiptare."
 type: "skandal"
 author: "50 hijet e pushtetit"
 authorType: "redaksi"
@@ -18,6 +18,10 @@ keyFacts:
     label: "vlera e projektit shqiptar sipas Presight"
   - value: "Pa pergjigje"
     label: "nese identifikimi biometrik eshte aktiv ne shkolla"
+  - value: "Marble"
+    label: "pyetja per nxjerrjen e te dhenave nga telefoni"
+  - value: "NewsPulse"
+    label: "pyetja per monitorimin e medias"
 sources:
   - title: "Nis projekti Smart City: Inteligjenca Artificiale dhe sistemi i monitorimit rrisin sigurine ne shkolla dhe hapesira publike"
     publisher: "Qeveria Shqiptare, Keshilli i Ministrave"
@@ -69,6 +73,16 @@ Sepse keto nuk jane kamerat e vjetra te korridoreve qe rrine te heshtura derisa 
 Kjo nuk eshte siguri pasive. Kjo eshte monitorim shteteror live.
 
 Dhe tani popullsia pilot jane femijet.
+
+Pyetjet e pakendshme nuk jane vetem per kamerat. Jane per te gjithe shtresen e survejimit qe mund te ndertohet rreth tyre:
+
+- teknologjine e njohjes se fytyres ne ekosistemin e furnitorit;
+- databazen kombetare biometrike te identitetit qe qendron ne te njejten arkitekture shteterore;
+- mjetet e nxjerrjes se te dhenave nga telefoni dhe forenzikes digjitale qe Presight reklamon per ligjzbatim;
+- mjetet e monitorimit te medias qe Presight reklamon per sentiment dhe reputacion;
+- qendren komanduese ku te gjitha keto sinjale mund te kthehen ne nje portret te vetem te nje personi.
+
+Qeveria nuk ka thene publikisht se te gjitha keto mjete jane pjese e kontrates shqiptare. Pikerisht ky eshte problemi. Publiku nuk ka pare mjaftueshem per te ditur cfare perfshihet, cfare perjashtohet, cfare eshte fikur teknikisht dhe cfare mund te ndizet me vone.
 
 ## Titulli jane shkollat. Historia e vertete eshte identiteti.
 
@@ -172,7 +186,7 @@ Nese pergjigjja eshte po, Shqiperia nuk po vendos thjesht kamera. Po vendos nje 
 
 Dhe nese kjo shtrese nis me shkollat, publiku duhet ta dije para se sistemi te normalizohet rreth femijeve.
 
-## Problemi i telefonit vjen me pas.
+## Pyetja e spiunimit te telefonit: a eshte Marble ne marreveshje?
 
 Presight reklamon edhe Marble, nje platforme forenzike digjitale per ligjzbatim dhe hetime. Marble mund te pertyp rezultate nga mjete si UFED, EnCase dhe FTK. Presight thote se platforma mund te analizoje fytyra, zera, pajisje, dokumente, gjurme financiare dhe prova gjeolokacioni ne nje hapesire te unifikuar pune.
 
@@ -180,13 +194,26 @@ Nuk ka prove publike se Marble eshte perfshire ne kontraten Smart City te Shqipe
 
 Pikerisht prandaj kontrata ka rendesi.
 
-Nese Marble nuk eshte perfshire, publikoni perjashtimin. Nese eshte perfshire, publiku duhet te dije nese policia mund te kombinoje te dhena kamerash, te dhena nga pajisje te sekuestruara, gjeolokacion, foto, video dhe harta rrjetesh ne nje platforme te vetme hetimore.
+Nese Marble nuk eshte perfshire, publikoni perjashtimin.
+
+Nese eshte perfshire, kjo nuk eshte me vetem histori kamerash. Behet edhe histori telefoni.
+
+Pyetja eshte nese policia mund te kombinoje te dhena kamerash, te dhena nga pajisje te sekuestruara, gjeolokacion, foto, video, rrjete kontaktesh dhe inteligjence te nxjerre nga mesazhet ne nje platforme te vetme hetimore.
 
 Kjo nuk eshte debat teorik per privatesine. Imagjinoni nje proteste. Imagjinoni policine qe sekuestron nje telefon. Imagjinoni fotot, kontaktet dhe vendndodhjet e nxjerra prej tij, te analizuara prane pamjeve nga kamerat e rruges dhe kamerat e trupit. Imagjinoni sistemin qe harton kush qendroi prane kujt, kush telefonoi ke dhe kush u shfaq ne fotot e kujt.
 
 Nese Shqiperia nuk po e blen kete kapacitet, ta thote.
 
 Nese Shqiperia po e blen, publiku ka te drejte ta debatoje para se te behet normale.
+
+Pyetjet publike jane te sakta:
+
+- A eshte Presight Marble pjese e kontrates Smart City apo e ndonje marreveshjeje te lidhur?
+- A pritet qe rezultatet nga UFED, EnCase, FTK apo mjete te tjera per nxjerrje te dhenash nga pajisjet te hyjne ne te njejten platforme?
+- A mund te kerkohen fytyrat e gjetura brenda nje telefoni te sekuestruar kundrejt pamjeve te kamerave?
+- A mund te lidhen kontaktet, vendndodhjet, fotot dhe videot nga telefoni me te dhenat e levizjes nga kamerat publike?
+- Cfare urdhri gjykate, mandati apo pragu ligjor duhet para se te dhenat e telefonit te hyjne ne sistem?
+- Kush i auditon keto kerkime pasi ndodhin?
 
 ## Problemi i medias nuk eshte i ndare.
 
@@ -203,6 +230,8 @@ Sepse i njejti shtet qe vendos kamera me AI ne shkolla dhe hapesira publike nuk 
 Nese NewsPulse nuk perfshihet, publikoni perjashtimin.
 
 Nese perfshihet, publikoni kush e perdor, cfare monitoron, nese perfshihet raportimi politik dhe nese parate publike po perdoren per te gjurmuar kritiken publike.
+
+E njejta logjike vlen edhe ketu: nje qeveri nuk duhet te vendose nje rrjet kombetar survejimi me AI dhe pastaj te bleje ne heshtje mjete per te matur zemerimin publik ndaj atij rrjeti.
 
 ## Ku jane te dhenat?
 

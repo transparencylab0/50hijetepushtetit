@@ -1,6 +1,6 @@
 ---
 title: "Albania Just Put AI Cameras in Schools. Now Ask What Happens to Your Child's Face."
-summary: "The first phase of Smart City covers 20 Tirana schools. The government calls it safety. The unanswered question is whether Albania is building a child-surveillance pilot before the law has caught up."
+summary: "The first phase of Smart City covers 20 Tirana schools. The government calls it safety. The unanswered questions are about facial recognition, phone extraction, media monitoring and where Albanian children's data goes."
 type: "skandal"
 author: "50 Shades of Power"
 authorType: "redaksi"
@@ -18,6 +18,10 @@ keyFacts:
     label: "Presight-listed Albania project value"
   - value: "Unanswered"
     label: "whether biometric matching is enabled in schools"
+  - value: "Marble"
+    label: "phone-extraction analytics question"
+  - value: "NewsPulse"
+    label: "media-monitoring question"
 sources:
   - title: "Smart City Project Launched: Artificial Intelligence and Monitoring System to Enhance Safety in Schools and Public Spaces"
     publisher: "Albanian Government, Council of Ministers"
@@ -69,6 +73,16 @@ Because these are not old hallway cameras that sit silently until someone rewind
 That is not passive security. That is live state monitoring.
 
 And now the pilot population is children.
+
+The uncomfortable questions are not only about cameras. They are about the whole surveillance stack around them:
+
+- the facial-recognition technology in the vendor ecosystem;
+- the national biometric identity database sitting under the same state architecture;
+- the phone-extraction and digital-forensics tools Presight markets to law enforcement;
+- the media-monitoring tools Presight markets for sentiment and reputation tracking;
+- the command centre where all these signals can become one picture of a person.
+
+The government has not publicly said all these tools are included in Albania's contract. That is the point. The public has not seen enough to know what is included, what is excluded, what is technically disabled and what can be switched on later.
 
 ## The headline is schools. The real story is identity.
 
@@ -172,7 +186,7 @@ If the answer is yes, Albania is not merely deploying cameras. It is deploying a
 
 And if that layer begins with schools, the public deserves to know before the system normalizes itself around children.
 
-## The phone problem is next.
+## The phone-spying question: is Marble in the deal?
 
 Presight also markets Marble, a digital forensics platform for law enforcement and investigations. Marble can ingest outputs from tools such as UFED, EnCase and FTK. Presight says it can analyse faces, voices, devices, documents, financial trails and geolocation evidence in a unified workspace.
 
@@ -180,13 +194,26 @@ There is no public proof that Marble is included in Albania's Smart City contrac
 
 That is exactly why the contract matters.
 
-If Marble is not included, publish the exclusion. If it is included, the public should know whether police can combine camera data, seized-device data, geolocation data, photos, videos and network maps into one investigative platform.
+If Marble is not included, publish the exclusion.
+
+If it is included, this is no longer only a camera story. It becomes a phone story too.
+
+The question is whether police can combine camera data, seized-device data, geolocation data, photos, videos, contact networks and message-derived intelligence into one investigative platform.
 
 This is not a theoretical privacy debate. Imagine a protest. Imagine police seize a phone. Imagine extracted photos, contacts and locations are analysed next to street-camera footage and body-camera footage. Imagine the system maps who stood near whom, who called whom and who appeared in whose images.
 
 If Albania is not buying that capability, say so.
 
 If Albania is buying it, the public has a right to debate it before it becomes normal.
+
+The public questions are precise:
+
+- Is Presight Marble included in the Smart City contract or any related agreement?
+- Are UFED, EnCase, FTK or other device-extraction outputs meant to feed into the same platform?
+- Can faces found inside a seized phone be searched against camera footage?
+- Can contacts, locations, photos and videos from a phone be linked to movement data from public cameras?
+- What warrant, court order or legal threshold is required before phone data enters the system?
+- Who audits those searches after they happen?
 
 ## The media problem is not separate either.
 
@@ -203,6 +230,8 @@ Because the same state that installs AI cameras in schools and public spaces sho
 If NewsPulse is not included, publish the exclusion.
 
 If it is included, publish who uses it, what it monitors, whether political reporting is included and whether public money is being used to track public criticism.
+
+The same logic applies here: a government should not install a national AI surveillance network and then secretly buy tools to measure public anger about that network.
 
 ## Where is the data?
 
