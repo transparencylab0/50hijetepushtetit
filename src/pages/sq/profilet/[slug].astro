@@ -11,6 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { item } = Astro.props;
+const keyFacts = item.data.keyFacts ?? [];
 const { Content } = await render(item);
 const cases = await getCollection("cases");
 const articles = await getCollection("articles");
@@ -31,6 +32,11 @@ const formatDate = (date: Date) =>
     month: "long",
     year: "numeric"
   }).format(date);
+const replySubject = encodeURIComponent(`Pergjigje per profilin: ${item.data.title}`);
+const replyBody = encodeURIComponent(
+  `Profili: /sq/profilet/${item.id}/\\n\\nShkruaj pergjigjen, korrigjimin ose shenimin e burimit ketu. Bashkangjit dokumente ose linke burimore kur eshte e mundur.`
+);
+const replyMailto = `mailto:thetourist1@proton.me?subject=${replySubject}&body=${replyBody}`;
 ---
 
 <BaseLayout title={`${item.data.title} | 50hijetepushtetit`} description={item.data.summary}>
@@ -47,6 +53,17 @@ const formatDate = (date: Date) =>
       <div class="tag-row">
         {item.data.tags.map((tag) => <span>{tag}</span>)}
       </div>
+      {keyFacts.length > 0 && (
+        <div class="article-facts" aria-label="Shifra kryesore">
+          {keyFacts.map((fact) => (
+            <div class="article-fact">
+              <strong>{fact.value}</strong>
+              <span>{fact.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {item.data.disclaimer && <p class="article-disclaimer">{item.data.disclaimer}</p>}
       {item.data.image && (
         <figure class={`article-image${item.data.image.layout === "portrait" ? " portrait" : ""}`}>
           <img src={item.data.image.src} alt={item.data.image.alt} loading="lazy" decoding="async" />
@@ -85,6 +102,17 @@ const formatDate = (date: Date) =>
             </article>
           ))}
         </div>
+      </section>
+    )}
+
+    {item.data.rightOfReply && (
+      <section class="article-support reply-box">
+        <h2>E drejta e përgjigjes</h2>
+        <p>
+          Çdo palë e përmendur në këtë profil mund të dërgojë përgjigje, korrigjim ose dokumente.
+          Përgjigjet shqyrtohen manualisht dhe mund të publikohen si përditësime kur janë të rëndësishme.
+        </p>
+        <a class="button" href={replyMailto}>Dërgo përgjigje me email</a>
       </section>
     )}
 
